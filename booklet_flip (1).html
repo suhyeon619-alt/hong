@@ -1,0 +1,354 @@
+<title>실크로드 문화소식</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;700;900&display=swap">
+<style>
+/* Layout: 한 화면 책자. 가로로 넘기는 페이지 트랙 + 하단 내비게이션 바. 쪽 내용이 길면 쪽 안에서만 세로 스크롤. */
+:root{
+  --desk:#DCE2EA; --page:#FFFFFF; --ink:#16213A; --muted:#5C677D; --line:#D9DFE8; --soft:#F2F4F8;
+  --c1:#C8432B; --c2:#1E7A6B; --c3:#3B4FA0; --on:#FFFFFF; --shadow:0 1px 2px rgba(22,33,58,.08),0 10px 28px rgba(22,33,58,.10);
+  --display:'Noto Serif KR','Nanum Myeongjo',serif; --body:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --desk:#0B1120; --page:#151D31; --ink:#E9EDF5; --muted:#9BA7BE; --line:#2A3550; --soft:#1C2540;
+  --c1:#E8694F; --c2:#3FB5A0; --c3:#7C8FE0; --on:#0B1120; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --desk:#0B1120; --page:#151D31; --ink:#E9EDF5; --muted:#9BA7BE; --line:#2A3550; --soft:#1C2540;
+  --c1:#E8694F; --c2:#3FB5A0; --c3:#7C8FE0; --on:#0B1120; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--desk);color:var(--ink);font-family:var(--body);line-height:1.6;font-size:15px;
+  padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--pc,var(--c1));outline-offset:2px}
+
+.app{height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto;--pc:var(--ink)}
+.app[data-part="1"]{--pc:var(--c1)}.app[data-part="2"]{--pc:var(--c2)}.app[data-part="3"]{--pc:var(--c3)}
+.viewport{overflow:hidden;min-height:0}
+.track{display:flex;height:100%;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+@media (prefers-reduced-motion:reduce){.track{transition:none}}
+.pg{flex:0 0 100%;width:100%;height:100%;overflow-y:auto;overflow-x:hidden;padding:clamp(8px,2vw,22px) max(10px,env(safe-area-inset-left,0px)) clamp(8px,2vw,22px) max(10px,env(safe-area-inset-right,0px));overscroll-behavior:contain}
+.pg>.sheet{max-width:1000px;margin:0 auto;min-height:100%;background:var(--page);box-shadow:var(--shadow);min-width:0}
+.pad{padding:clamp(18px,4vw,44px)}
+.p1{--pc:var(--c1)}.p2{--pc:var(--c2)}.p3{--pc:var(--c3)}
+
+/* 표지 */
+.cover{display:grid;grid-template-rows:auto 1fr auto;background:var(--ink)!important;color:#fff;padding:clamp(22px,5vw,52px);position:relative;overflow:hidden}
+.cover .top{display:flex;justify-content:space-between;gap:16px;font-size:12px;letter-spacing:.18em;opacity:.85}
+.cover h1{font-family:var(--display);font-weight:900;font-size:clamp(40px,10vw,92px);line-height:1.08;margin:0;text-wrap:balance;align-self:center;padding:28px 0}
+.cover h1 span{display:block;font-size:.32em;font-weight:500;letter-spacing:.05em;margin-top:16px;opacity:.92;line-height:1.5}
+.cover .bottom{display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;font-size:13.5px;border-top:1px solid rgba(255,255,255,.3);padding-top:14px}
+.cover .bars{position:absolute;right:0;top:0;bottom:0;width:14px;display:grid;grid-template-rows:1fr 1fr 1fr}
+.cover .bars i:nth-child(1){background:var(--c1)}.cover .bars i:nth-child(2){background:var(--c2)}.cover .bars i:nth-child(3){background:var(--c3)}
+.cover .start{align-self:end}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cover{background:#0F1730!important}}
+:root[data-theme="dark"] .cover{background:#0F1730!important}
+
+/* 차례 */
+.toc h2{font-family:var(--display);font-size:28px;margin:0 0 4px}
+.toc .sub{color:var(--muted);margin:0 0 20px}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li a{display:grid;grid-template-columns:64px 1fr;gap:6px 16px;padding:16px 0;border-top:1px solid var(--line);text-decoration:none;cursor:pointer}
+.toc li:last-child a{border-bottom:1px solid var(--line)}
+.toc .n{font-family:var(--display);font-weight:900;font-size:32px;line-height:1;color:var(--pc)}
+.toc b{font-family:var(--display);font-size:18px}
+.toc .d{display:block;color:var(--muted);font-size:13.5px}
+.toc a:hover b{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--pc)}
+.guide{margin-top:20px;background:var(--soft);padding:14px 16px;font-size:13.5px;color:var(--muted)}
+.guide b{color:var(--ink);display:block;margin-bottom:4px}
+.guide .ln{display:block}
+.divider .ln{display:block}
+.divider p,.guide,.notice,.remark,.fest p{word-break:keep-all;overflow-wrap:break-word}
+.notice p{margin:0}.notice p+p{margin-top:6px}
+
+/* 파트 표지 (공통) */
+.divider{background:var(--pc)!important;color:var(--on);padding:clamp(22px,5vw,52px);display:grid;grid-template-rows:auto 1fr auto}
+.divider .lab{font-size:12px;letter-spacing:.2em;font-weight:700;opacity:.9}
+.divider .num{font-family:var(--display);font-weight:900;font-size:clamp(90px,24vh,190px);line-height:.9;align-self:center;margin:8px 0;opacity:.95}
+.divider h2{font-family:var(--display);font-size:clamp(26px,5.5vw,44px);line-height:1.2;margin:0;text-wrap:balance}
+.divider p{margin:10px 0 0;max-width:54ch;opacity:.93}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.chips a{font-size:12.5px;text-decoration:none;border:1px solid currentColor;padding:3px 12px;border-radius:99px;cursor:pointer}
+.chips a:hover{background:rgba(255,255,255,.2)}
+
+/* 본문 쪽 공통 */
+.crumb{font-size:11.5px;letter-spacing:.14em;font-weight:700;color:var(--pc);margin-bottom:6px}
+.chap-h{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--pc);padding-bottom:8px;margin-bottom:18px;flex-wrap:wrap}
+.chap-h h3{font-family:var(--display);font-size:28px;margin:0}
+.chap-h em{font-style:normal;font-size:13px;color:var(--muted)}
+.chap-h .idx{margin-left:auto;font-family:var(--display);font-weight:900;color:var(--pc);font-size:15px;letter-spacing:.08em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:12px}
+.entry,.fest{border:1px solid var(--line);border-left:4px solid var(--pc);padding:13px 15px;min-width:0;background:var(--page)}
+.entry .when{font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--muted);font-weight:500;margin-bottom:4px}
+.kind{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--pc);border:1px solid var(--pc);padding:0 7px;border-radius:2px;margin-right:6px;vertical-align:1px}
+.entry h4{display:inline;font-size:15.5px;margin:0;font-weight:700;overflow-wrap:anywhere}
+.entry h4 a{text-decoration:none;border-bottom:1px solid var(--line)}
+.entry h4 a:hover{border-color:var(--pc)}
+.entry .where{color:var(--muted);font-size:13.5px;margin-top:4px}
+.live{display:inline-block;font-size:11px;font-weight:700;color:var(--on);background:var(--pc);padding:0 7px;border-radius:2px;margin-left:6px;vertical-align:1px}
+.remark{white-space:normal;margin-top:14px;background:var(--soft);padding:12px 14px;font-size:13.5px;color:var(--muted);border-left:3px solid var(--pc)}
+.fest h4{font-family:var(--display);font-size:18px;margin:0}
+.fest .org{font-size:12.5px;color:var(--muted);margin:2px 0 8px}
+.fest .dates{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;margin-bottom:8px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fest .dates b{display:block;color:var(--pc);font-size:11px;letter-spacing:.1em}
+.fest p{margin:0;font-size:13.5px}
+.fest .lk{display:inline-block;margin-top:8px;font-size:13px;color:var(--pc);font-weight:700;text-decoration:none;border-bottom:1px solid currentColor}
+@media(max-width:420px){.fest .dates{grid-template-columns:1fr}}
+
+/* QR 카드 */
+.qrgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:14px}
+.qcard{border:1px solid var(--line);padding:16px;display:grid;grid-template-columns:112px 1fr;gap:14px;min-width:0;align-items:start}
+@media(max-width:400px){.qcard{grid-template-columns:1fr}}
+.qr{width:112px;height:112px;background:#fff;padding:6px;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.qr svg{width:100%;height:100%;display:block}
+.qcard .kind{margin:0 0 6px}
+.qcard h4{font-family:var(--display);font-size:17px;margin:0 0 4px}
+.qcard p{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.qcard .u{font-size:11.5px;font-family:ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+.qcard .u a{color:var(--pc)}
+.notice{margin-top:18px;border:1px solid var(--line);border-top:3px solid var(--pc);padding:14px 16px;font-size:13.5px}
+.notice b{display:block;margin-bottom:4px;font-family:var(--display);font-size:15px}
+
+/* 권역 이동 탭 · 차례 버튼 */
+.tabrow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.tabs a{font-size:13px;font-weight:700;text-decoration:none;border:1.5px solid var(--pc);color:var(--pc);padding:4px 13px;border-radius:99px;cursor:pointer}
+.tabs a:hover{background:var(--soft)}
+.tabs a.on{background:var(--pc);color:var(--on);cursor:default}
+.tocbtn{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--soft);padding:5px 13px;border-radius:99px;cursor:pointer;white-space:nowrap;margin-left:auto}
+.tocbtn:hover{border-color:var(--pc)}
+/* 판권 */
+.colo{display:grid;gap:8px;align-content:end;font-size:13.5px;color:var(--muted)}
+.colo b{color:var(--ink);font-family:var(--display);font-size:22px}
+
+/* 하단 내비게이션 */
+.bar{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto auto;gap:8px;align-items:center;background:var(--page);border-top:3px solid var(--pc);padding:8px max(10px,env(safe-area-inset-left,0px)) 8px max(10px,env(safe-area-inset-right,0px))}
+.bar button{border:1px solid var(--line);background:var(--soft);padding:7px 12px;border-radius:99px;cursor:pointer;font-size:13.5px;font-weight:700;white-space:nowrap}
+.bar button:hover:not(:disabled){border-color:var(--pc)}
+.bar button.go{background:var(--pc);color:var(--on);border-color:var(--pc);min-width:48px}
+.bar button:disabled{opacity:.35;cursor:default}
+.mid{min-width:0;text-align:center}
+.mid .lbl{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.prog{height:4px;background:var(--line);border-radius:4px;margin-top:5px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--pc);transition:width .4s}
+@media(max-width:520px){.bar .t{display:none}.bar button{padding:7px 11px}}
+@media(min-width:700px){.remark{white-space:nowrap;font-size:clamp(11px,1.45vw,13.5px)}}
+</style>
+
+<div class="app" id="app" data-part="0">
+  <div class="viewport" id="vp"><div class="track" id="track"></div></div>
+  <nav class="bar" aria-label="책자 넘기기">
+    <button id="bHome" aria-label="처음으로">⌂<span class="t"> 처음</span></button>
+    <button id="bToc" aria-label="차례">☰<span class="t"> 차례</span></button>
+    <div class="mid"><div class="lbl" id="lbl"></div><div class="prog"><i id="pbar"></i></div></div>
+    <button id="bPrev" class="go" aria-label="이전 쪽">◀</button>
+    <button id="bNext" class="go" aria-label="다음 쪽">▶</button>
+  </nav>
+</div>
+
+<script>
+var Y='https://nol.yanolja.com/ticket/';
+/* [유형, 제목, 기간, 장소, 링크, 진행중] */
+var EV=[
+{id:'capital',name:'수도권',sub:'서울 · 경기 · 인천',rows:[
+ ['전시','스페인 미술 500년: 빛과 어둠의 연대기','2026.09.22 – 2027.01.20','서울 예술의전당 한가람디자인미술관',Y+'products/26012277',1],
+ ['전시','현대카드 컬처프로젝트 31 웨인 티보 전','2026.09.19 – 2027.02.21','서울 동대문디자인플라자 뮤지엄',Y+'products/26013560',1],
+ ['전시','스페인 미술 거장전: 피카소, 미로, 달리','2026.10.21 – 2027.02.21','경기 고양 아람미술관',Y+'places/22000220/products/26013500',1],
+ ['전시','툴루즈 로트렉과 수잔 발라동','2026.11.07 – 2027.02.09','서울 세종문화회관 미술관',Y+'places/19000626/products/26013616'],
+ ['전시','조르조 모란디','2026.11.21 – 2027.03.01','서울 더현대 서울 ALT.1',Y+'places/24001688/products/26012154'],
+ ['음악회','사이먼 래틀 & 바이에른 방송교향악단','2026.11.12 – 11.13 19:30','서울 예술의전당 콘서트홀','https://www.sac.or.kr/site/main/content/vincero'],
+ ['콘서트','NMIXX 월드투어 〈EPISODE 1: ZERO FRONTIER〉 피날레','2026.11.27 – 11.29','인천 INSPIRE ARENA',Y+'places/26001251/products/26013946'],
+ ['콘서트','이승윤 콘서트 [0]','2026.12.11 – 12.13','경기 고양 킨텍스 제2전시장',Y+'places/26001360/products/26015138'],
+ ['콘서트','자우림 [MIDNIGHT EXPRESS 2026-2027] 서울','2026.12.18 – 12.20','서울 올림픽공원 올림픽홀','https://sports.khan.co.kr/en/article/202610240351007'],
+ ['음악회','파리나무십자가소년합창단 특별초청 공연','2026.12.22','경기 성남아트센터 콘서트홀',Y+'places/17000762/products/26012377'],
+ ['음악회','리처드 용재 오닐 〈바흐 소사이어티〉','2026.12.23 19:30','서울 예술의전당 콘서트홀','https://www.sac.or.kr/site/main/show/show_view?SN=81132'],
+ ['음악회','이 무지치 신년음악회','2027.01.12 19:30','서울 예술의전당 콘서트홀','https://www.sac.or.kr/site/main/show/show_view?SN=82302']
+]},
+{id:'gyeongsang',name:'경상',sub:'부산 · 대구 · 울산 · 경북 · 경남',rows:[
+ ['전시','워너 브롱크호스트 부산전','2026.05.22 – 2027.01.03','부산 그랜드 조선 부산',Y+'places/26000425/products/26007456',1],
+ ['전시','대구간송미술관 특별전 〈겸재 정선〉','2026.09.16 – 12.27','대구 대구간송미술관',Y+'places/24000666/products/26011790',1],
+ ['전시','가갸거겨고!','2026.10.05 – 2027.02.14','부산 KT&G 상상마당 갤러리',Y+'places/25000162/products/26013213',1],
+ ['전시','피카소에서 키키 스미스까지 – 모더니티의 초상','2026.11.17 – 12.31','대구 대구미술관',Y+'places/20000068/products/26015348'],
+ ['콘서트','허각 전국투어 〈공연각: 사이〉 부산','2026.11.21 – 11.22','부산 소향씨어터',Y+'places/26000202/products/26012560'],
+ ['음악회','영화의전당 11시 영화음악콘서트 〈합창으로 듣는 영화음악〉','2026.11.25 11:00','부산 영화의전당 하늘연극장',Y+'products/26003167'],
+ ['콘서트','엠씨더맥스 이수 · 거미 대구 공연','2026.12.19 – 12.20','대구 엑스코','https://nol.yanolja.com/ticket/display/upcoming'],
+ ['콘서트','자우림 [MIDNIGHT EXPRESS 2026-2027] 부산','2026.12.25','부산 벡스코 오디토리움',Y+'products/26015508'],
+ ['콘서트','자우림 [MIDNIGHT EXPRESS 2026-2027] 대구','2027.01.09 18:00','대구 엑스코 오디토리움',Y+'products/26015499']
+]},
+{id:'jeolla',name:'전라',sub:'광주 · 전북 · 전남',rows:[
+ ['전시','제16회 광주비엔날레','2026.09.05 – 11.15','광주 광주비엔날레 전시관',Y+'places/07000007/products/26007603',1],
+ ['전시','인상파, 찬란한 순간들','2026.09.23 – 2027.02.21','광주 국립아시아문화전당',Y+'places/26000968/products/26011839',1],
+ ['전시','실재와 환영의 미로 – 국제 하이퍼리얼리즘','2026.10.14 – 2027.02.14','광주 광주미술관',Y+'places/26001118/products/26013341',1],
+ ['콘서트','THE GREATEST: 전율 소향 X 김기태','2026.12.05','전주 전북대학교 삼성문화회관',Y+'places/26000244/products/26013404'],
+ ['콘서트','카즈미 타테이시 트리오 내한 – 지브리, 재즈를 만나다','2026.12.19','광주 ACC 예술극장',Y+'places/24001246/products/26010847'],
+ ['음악회','조수미 세계무대 데뷔 40주년 CONTINUUM','2026.12.20','광주 예술의전당 대극장',Y+'places/26001294/products/26015037'],
+ ['콘서트','거미 투어 콘서트 〈LOVE〉 광주','2026.12.25 – 12.26','광주 예술의전당 대극장',Y+'places/23001162/products/26013491'],
+ ['음악회','KBS교향악단과 함께하는 여수음악제 송년음악회','2026.12.26','전남 GS칼텍스 예울마루 대극장',Y+'places/23001031/products/26014186']
+]},
+{id:'chungcheong',name:'충청',sub:'대전 · 세종 · 충북 · 충남',rows:[
+ ['전시','백제문화전당 상설전시 〈빛으로 잇는 시간, 백제〉','2026.08.01 – 12.31','충남 부여 백제문화전당',Y+'places/26000169/products/26010582',1],
+ ['콘서트','이은미 콘서트 with 오케스트라 〈추억이 핀다〉','2026.11.08','청주 청주예술의전당 대공연장',Y+'places/18001374/products/26012065'],
+ ['콘서트','겨울, 밤마실 콘서트 Ⅵ 대전','2026.11.13 – 11.14','대전 플랜에이 B홀',Y+'products/26015612'],
+ ['콘서트','윤종신 전국투어 〈가을냄새〉 대전','2026.11.14 17:00','대전 우송예술회관',Y+'products/26013018'],
+ ['음악회','레 벙 프랑세 내한공연','2026.11.17','세종 세종예술의전당',Y+'places/24000940/products/26012299'],
+ ['콘서트','김광석 30주기 특별공연 〈2026 광석이 다시 만나기〉','2026.11.27','충북 제천예술의전당 대공연장',Y+'products/26015648'],
+ ['음악회','송년음악회 [Romantic Winter Night]','2026.12.16 19:30','대전 대전예술의전당 아트홀',Y+'products/26015404'],
+ ['콘서트','다이나믹 듀오 단독 콘서트 대전','2026.12.19','대전 충남대학교 정심화홀',Y+'places/25001396/products/26013730'],
+ ['음악회','조수미 CONTINUUM 대전','2026.12.31','대전 대전예술의전당 아트홀',Y+'places/06000004/products/26015144'],
+ ['콘서트','자우림 [MIDNIGHT EXPRESS 2026-2027] 대전','2027.01.02 18:00','대전 충남대학교 정심화홀',Y+'products/26015504']
+]},
+{id:'gangwon',name:'강원',sub:'강릉 · 춘천 · 원주 · 속초 외',rows:[
+ ['콘서트','무명전설 전국투어 콘서트 강릉','2026.11.28 13:00','강릉 가톨릭관동대 세바스티아노스포츠센터',Y+'products/26012564'],
+ ['콘서트','임창정 콘서트 〈다시, 우리의 시간을 노래하다〉 춘천','2026.12.19 17:00','춘천 강원대학교 백령아트센터',Y+'products/26015586']
+],note:'강원권의 전시·클래식 공연은 강릉아트센터, 춘천문화재단, 원주 뮤지엄산 등 각 문화시설 누리집에서 최신 일정을 확인하실 수 있습니다.'}
+];
+/* y26: 2026년 개최, y27: 2027년 개최(예정) */
+var FE=[
+{id:'capital',name:'수도권',rows:[
+ {n:'서울빛초롱축제',w:'서울 청계천',o:'2009년 시작',y26:'12월 개최 예정 (세부 일정 발표 전)',y27:'12월 전후 개최 예상',d:'청계천 일대를 형형색색의 등(燈)으로 밝히는 겨울 야간 축제입니다. 지난 시즌에는 2025년 12월 12일부터 2026년 1월 18일까지 열렸습니다.',s:'https://festival.seoul.go.kr/festival/main/festivalView.do?festacode=360'},
+ {n:'수원화성문화제',w:'경기 수원',o:'1964년 시작 · 2026년 제63회',y26:'10.04 – 10.11 (종료)',y27:'10월 초 개최 예상',d:'유네스코 세계유산 수원화성을 배경으로 정조대왕 능행차를 공동 재현하는 대표 역사 문화 축제이며, 글로벌축제로 선정되었습니다.',s:'https://shfestival.com'},
+ {n:'안성맞춤 남사당 바우덕이축제',w:'경기 안성',o:'2001년 시작',y26:'10.02 – 10.05 (종료)',y27:'10월 초 개최 예상',d:'남사당 풍물과 줄타기 등 전통 연희를 현대적으로 풀어낸 문화관광축제입니다.'}
+]},
+{id:'gyeongsang',name:'경상',rows:[
+ {n:'포항국제불빛축제',w:'경북 포항 영일대해수욕장 · 송도부두',o:'2004년 시작',y26:'11.19 – 11.21 (개최 예정)',y27:'발표 전',d:'바다 위로 펼쳐지는 대규모 불꽃쇼가 중심인 축제입니다. 일정이 조정될 수 있어 개최 전 공식 공지 확인을 권장합니다.',s:'https://phcf.or.kr'},
+ {n:'안동국제탈춤페스티벌',w:'경북 안동',o:'1997년 시작',y26:'09.24 – 10.04 (종료)',y27:'9월 말 – 10월 초 개최 예상',d:'국내외 탈춤과 탈 문화를 한자리에서 만나는 국제 축제로, 2026년 글로벌축제로 선정되었습니다.',s:'https://www.maskdance.com'},
+ {n:'진주남강유등축제',w:'경남 진주 진주성 · 남강',o:'1949년 유등 행사에서 출발 · 2000년 독립 개최',y26:'10.03 – 10.18 (종료)',y27:'10월 개최 예상',d:'임진왜란 진주성 전투의 역사에서 비롯된 유등 문화를 남강 위에 구현한 야간 축제이며, 글로벌축제로 선정되었습니다.',s:'https://yudeung.com'},
+ {n:'고령 대가야축제',w:'경북 고령',o:'2026–2027 문화관광축제',y26:'03.27 – 03.29 (종료)',y27:'3월 말 개최 예상',d:'대가야의 역사와 문화를 재현하는 축제로, 2026~2027년 문화관광축제로 선정되었습니다.'}
+]},
+{id:'jeolla',name:'전라',rows:[
+ {n:'남원 춘향제',w:'전북 남원',o:'1931년 시작 · 2026년 제96회',y26:'04.30 – 05.06 (종료)',y27:'4월 말 – 5월 초 개최 예상',d:'춘향 이야기를 중심으로 한 국내 최장수 지역축제로 소개되며, 매년 봄 광한루원 일대에서 열립니다.',s:'https://chunhyang.org'},
+ {n:'전주세계소리축제',w:'전북 전주',o:'2001년 시작 · 2026년 제25회',y26:'08.12 – 08.16 (종료)',y27:'8 – 9월 개최 예상',d:'판소리를 비롯한 우리 소리와 세계 음악을 아우르는 공연예술 축제입니다.',s:'https://sorifestival.com'},
+ {n:'보성다향대축제',w:'전남 보성',o:'2026년 제49회',y26:'05.01 – 05.05 (종료)',y27:'5월 초 개최 예상',d:'차의 고장 보성의 다문화를 체험하는 축제로, 2018년부터 2027년까지 문화관광축제로 연속 지정되었습니다.'},
+ {n:'정남진 장흥 물축제',w:'전남 장흥',o:'2026년 제19회',y26:'07.25 – 08.02 (종료)',y27:'7월 말 – 8월 초 개최 예상',d:'탐진강 일원에서 열리는 여름 물놀이 축제로, 예비 글로벌축제로 선정되었습니다.'}
+]},
+{id:'chungcheong',name:'충청',rows:[
+ {n:'백제문화제',w:'충남 공주 · 부여',o:'1955년 시작 · 2026년 제72회',y26:'10.03 – 10.11 (종료)',y27:'10월 초 개최 예상',d:'웅진(공주)과 사비(부여) 두 고도에서 함께 열리며 백제의 역사와 문화를 재현합니다.'},
+ {n:'금산인삼축제',w:'충남 금산',o:'1981년 시작',y26:'10.02 – 10.11 (종료)',y27:'10월 초 개최 예상',d:'인삼 수확과 손질 등 산지의 문화를 직접 체험할 수 있는 축제입니다.',s:'https://insamfestival.co.kr'},
+ {n:'보령머드축제',w:'충남 보령 대천해수욕장',o:'1998년 시작으로 알려짐 · 2026년 제29회',y26:'07.24 – 08.09 (종료)',y27:'7 – 8월 개최 예상',d:'갯벌 머드를 활용한 체험형 여름 축제로 외국인 방문객이 많으며, 글로벌축제로 선정되었습니다.',s:'https://mudfestival.or.kr'},
+ {n:'천안흥타령춤축제',w:'충남 천안',o:'2003년 시작',y26:'10.01 – 10.05 (종료)',y27:'10월 초 개최 예상',d:'거리 퍼레이드와 경연 등 춤을 주제로 한 전국 규모의 축제입니다.',s:'https://cheonanfestival.com'}
+]},
+{id:'gangwon',name:'강원',rows:[
+ {n:'화천산천어축제',w:'강원 화천',o:'글로벌축제',y26:'2026–27 겨울 시즌 개최 예정',y27:'2027.01.09 – 01.31 (한국관광공사 등록 일정)',d:'얼어붙은 강 위에서 즐기는 얼음낚시가 대표 프로그램인 겨울 축제입니다. 2027년 체험 이용료 조정이 논의되고 있어 방문 전 공지 확인을 권장합니다.',s:'https://narafestival.com'},
+ {n:'강릉단오제',w:'강원 강릉',o:'유네스코 인류무형문화유산 · 국가무형문화재',y26:'06.15 – 06.22 (종료)',y27:'6월 중 개최 예상 (음력 5월 5일 전후)',d:'천 년의 전통을 이어 온 영신행차와 관노가면극, 단오굿 등을 무료로 관람할 수 있는 축제입니다.',s:'https://danojefestival.or.kr'},
+ {n:'정선아리랑제',w:'강원 정선',o:'2026년 제51회',y26:'10.01 – 10.04 (종료)',y27:'10월 초 개최 예상',d:'정선아리랑의 전승과 보존을 위한 전통 문화 축제입니다.',s:'https://arirangfestival.kr'},
+ {n:'평창효석문화제',w:'강원 평창 봉평',o:'1999년 시작',y26:'09.04 – 09.13 (종료)',y27:'9월 개최 예상',d:'이효석의 소설 「메밀꽃 필 무렵」의 배경인 메밀꽃밭에서 열리는 문학 축제입니다.',s:'https://hyoseok.com'}
+]}
+];
+var SITES=[
+ {k:'온라인 절',n:'온라인 절',u:'https://sansa-online-temple.vercel.app',d:'가상 법당에서 합장하고 절하며 마음을 가라앉히는 온라인 사찰 공간입니다.'},
+ {k:'온라인 요가원',n:'온라인 요가원',u:'https://yoga.meditation-kr.workers.dev',d:'명상과 요가를 주제로 한 가상 수련 공간입니다.'},
+ {k:'온라인 교회',n:'온라인 교회',u:'https://saebyeok-church.pages.dev/',d:'새벽의 고요한 분위기를 담은 가상 교회 공간입니다.'},
+ {k:'온라인 사우나',n:'온라인 사우나',u:'https://saunagoyo.com/',d:'일상의 긴장을 풀고 쉬어 가는 가상 사우나 공간입니다.'},
+ {k:'온라인 성당',n:'온라인 성당',u:'https://inpeace.eric-6a5.workers.dev',d:'가상 성당에서 조용히 머물며 기도하는 온라인 성당 공간입니다.'},
+ {k:'온라인 수영장',n:'온라인 수영장',u:'https://swimpick.co.kr/mulmeong',d:'물을 주제로 한 가상 수영장 공간입니다.'}
+];
+
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function pad(n){return n<10?'0'+n:''+n}
+
+var pages=[];
+function add(id,part,title,html){pages.push({id:id,part:part,title:title,html:html})}
+
+/* 표지 · 차례 */
+add('cover',0,'표지','<div class="sheet cover"><div class="bars" aria-hidden="true"><i></i><i></i><i></i></div><div class="top"><span>CULTURE GUIDE</span><span></span></div><h1>실크로드 문화소식</h1><div class="bottom"><span>정보 기준일 2026. 11. 3.</span><span>화면을 옆으로 밀어 넘기세요</span></div></div>');
+add('toc',0,'차례','<div class="sheet pad toc" style="--pc:var(--ink)"><h2>차례</h2><p class="sub">항목을 누르면 해당 파트로 이동합니다.</p><ol>'
+ +'<li style="--pc:var(--c1)"><a data-go="p1"><span class="n">01</span><span><b>지역별 공연·전시 일정</b><span class="d">진행 중이거나 곧 열리는 전시, 콘서트, 음악회</span></span></a></li>'
+ +'<li style="--pc:var(--c2)"><a data-go="p2"><span class="n">02</span><span><b>대표 지역축제</b><span class="d">해마다 이어지는 전통 축제와 2026·2027년 개최 일정</span></span></a></li>'
+ +'<li style="--pc:var(--c3)"><a data-go="p3"><span class="n">03</span><span><b>온라인 쉼터 안내</b><span class="d">웹으로 접속하는 가상 공간과 QR 코드</span></span></a></li>'
+ +'</ol><div class="guide"><b>이용안내</b><span class="ln">공연·전시 제목에는 예매·상세 페이지 링크가 연결되어 있습니다.</span><span class="ln">회차, 요금, 예매 가능 여부는 연결된 페이지에서 확인해 주시기 바랍니다.</span></div></div>');
+
+function tabs(prefix,list,cur){
+  return '<div class="tabrow"><div class="tabs" aria-label="지역 선택">'+list.map(function(r){
+    return '<a data-go="'+prefix+r.id+'"'+(r.id===cur?' class="on" aria-current="page"':'')+'>'+r.name+'</a>'}).join('')+'</div><a class="tocbtn" data-go="toc">☰ 차례로</a></div>';
+}
+function chips(prefix,list){return '<div class="chips">'+list.map(function(r){return '<a data-go="'+prefix+r.id+'">'+r.name+'</a>'}).join('')+'</div>'}
+function divider(id,part,lab,num,title,desc,extra){
+  add(id,part,'PART '+num+' · '+title,'<div class="sheet divider p'+part+'"><span class="lab">'+lab+'</span><div class="num">'+num+'</div><div><h2>'+title+'</h2><p>'+desc+'</p>'+(extra||'')+'</div></div>');
+}
+
+/* 1부 */
+divider('p1',1,'PART ONE','01','지역별 공연·전시 일정','<span class="ln">2026년 11월부터 2027년 초까지 5개 권역에서 만날 수 있는</span><span class="ln">전시, 콘서트, 음악회를 소개합니다.</span>',chips('p1-',EV));
+EV.forEach(function(r,i){
+  var h='<div class="sheet pad p1">'+tabs('p1-',EV,r.id)+'<div class="crumb">PART 01 · 지역별 공연·전시 일정</div><div class="chap-h"><h3>'+r.name+'</h3><em>'+r.sub+'</em><span class="idx">'+pad(i+1)+' / 05</span></div><div class="grid">';
+  r.rows.forEach(function(x){
+    h+='<article class="entry"><div class="when">'+esc(x[2])+'</div><span class="kind">'+x[0]+'</span><h4><a href="'+esc(x[4])+'" target="_blank" rel="noopener">'+esc(x[1])+'</a></h4>'+(x[5]?'<span class="live">진행 중</span>':'')+'<div class="where">'+esc(x[3])+'</div></article>';
+  });
+  h+='</div>'+(r.note?'<div class="remark">'+esc(r.note)+'</div>':'')+'</div>';
+  add('p1-'+r.id,1,'공연·전시 · '+r.name,h);
+});
+
+/* 2부 */
+divider('p2',2,'PART TWO','02','대표 지역축제','<span class="ln">수십 년의 역사를 이어 온 연례 축제를 지역별로 정리했습니다.</span><span class="ln">2027년 일정은 공식 발표 전인 경우 예상 시기로 표기했습니다.</span>',chips('p2-',FE));
+FE.forEach(function(r,i){
+  var h='<div class="sheet pad p2">'+tabs('p2-',FE,r.id)+'<div class="crumb">PART 02 · 대표 지역축제</div><div class="chap-h"><h3>'+r.name+'</h3><span class="idx">'+pad(i+1)+' / 05</span></div><div class="grid">';
+  r.rows.forEach(function(f){
+    h+='<article class="fest"><h4>'+esc(f.n)+'</h4><div class="org">'+esc(f.w)+' · '+esc(f.o)+'</div><div class="dates"><div><b>2026</b>'+esc(f.y26)+'</div><div><b>2027</b>'+esc(f.y27)+'</div></div><p>'+esc(f.d)+'</p>'+(f.s?'<a class="lk" href="'+esc(f.s)+'" target="_blank" rel="noopener">공식 누리집</a>':'')+'</article>';
+  });
+  h+='</div></div>';
+  add('p2-'+r.id,2,'지역축제 · '+r.name,h);
+});
+
+/* 3부 */
+divider('p3',3,'PART THREE','03','온라인 쉼터 안내',"<span class=\"ln\">일상 속 쉼을 담은 화제의 메타버스 가상공간들입니다.</span><span class=\"ln\">QR 코드를 스마트폰 카메라로 비추면 바로 접속됩니다.</span>",'');
+var q='<div class="sheet pad p3"><div class="tabrow"><span></span><a class="tocbtn" data-go="toc">☰ 차례로</a></div><div class="crumb">PART 03 · 온라인 쉼터 안내</div><div class="chap-h"><h3>가상 공간 6선</h3><em>웹 브라우저로 접속</em><span class="idx">QR</span></div><div class="qrgrid">';
+SITES.forEach(function(s,i){
+  q+='<article class="qcard"><div class="qr" id="qr'+i+'" role="img" aria-label="'+esc(s.n)+' 접속 QR 코드"></div><div><span class="kind">'+esc(s.k)+'</span><h4>'+esc(s.n)+'</h4><p>'+esc(s.d)+'</p><div class="u"><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.u.replace(/^https?:\/\//,'').replace(/\/$/,''))+'</a></div></div></article>';
+});
+q+='</div><div class="notice"><b>이용 전 안내</b><p>소개된 사이트는 개인 또는 소규모 팀이 제작한 외부 웹 콘텐츠로, 해당 종교 기관 등의 공식 서비스가 아닙니다.</p><p>접속자가 많을 때는 연결이 지연되거나 주소가 변경될 수 있으며, 개인정보 입력이 필요한 경우 주의해 주시기 바랍니다.</p></div></div>';
+add('p3-sites',3,'온라인 쉼터 · QR',q);
+
+/* 판권 */
+add('end',0,'판권','<div class="sheet pad colo"><b>실크로드 문화소식</b><span>정보 기준일: 2026년 11월 3일. 모든 일정은 주최 측 사정에 따라 변경될 수 있습니다.</span><span>자료 출처: NOL티켓, 예술의전당, 한국관광공사 축제 정보, 문화체육관광부 2026~2027 문화관광축제 발표, 각 지자체 및 언론 보도.</span></div>');
+
+/* 렌더 */
+var track=document.getElementById('track'),app=document.getElementById('app');
+var idx={};
+track.innerHTML=pages.map(function(p,i){idx[p.id]=i;return '<section class="pg" id="pg-'+i+'" role="group" aria-label="'+esc(p.title)+'">'+p.html+'</section>'}).join('');
+var QRS={"https://sansa-online-temple.vercel.app": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 37 37\" shape-rendering=\"crispEdges\" role=\"img\"><rect width=\"37\" height=\"37\" fill=\"#fff\"/><path d=\"M4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM24 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM29 4h1v1h-1zM30 4h1v1h-1zM31 4h1v1h-1zM32 4h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM13 5h1v1h-1zM14 5h1v1h-1zM15 5h1v1h-1zM16 5h1v1h-1zM18 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM22 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM17 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM23 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM29 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM16 7h1v1h-1zM17 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM21 7h1v1h-1zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM30 7h1v1h-1zM32 7h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM15 8h1v1h-1zM16 8h1v1h-1zM19 8h1v1h-1zM20 8h1v1h-1zM23 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM14 9h1v1h-1zM15 9h1v1h-1zM17 9h1v1h-1zM20 9h1v1h-1zM22 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM26 9h1v1h-1zM32 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM31 10h1v1h-1zM32 10h1v1h-1zM14 11h1v1h-1zM16 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM20 11h1v1h-1zM21 11h1v1h-1zM22 11h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM10 12h1v1h-1zM12 12h1v1h-1zM14 12h1v1h-1zM15 12h1v1h-1zM16 12h1v1h-1zM17 12h1v1h-1zM19 12h1v1h-1zM20 12h1v1h-1zM21 12h1v1h-1zM22 12h1v1h-1zM25 12h1v1h-1zM28 12h1v1h-1zM29 12h1v1h-1zM30 12h1v1h-1zM32 12h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM12 13h1v1h-1zM14 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM23 13h1v1h-1zM25 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM28 13h1v1h-1zM32 13h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM21 14h1v1h-1zM28 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM4 15h1v1h-1zM5 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM13 15h1v1h-1zM14 15h1v1h-1zM23 15h1v1h-1zM24 15h1v1h-1zM25 15h1v1h-1zM26 15h1v1h-1zM32 15h1v1h-1zM4 16h1v1h-1zM8 16h1v1h-1zM9 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM13 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM18 16h1v1h-1zM21 16h1v1h-1zM25 16h1v1h-1zM27 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM6 17h1v1h-1zM8 17h1v1h-1zM12 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM18 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM26 17h1v1h-1zM30 17h1v1h-1zM31 17h1v1h-1zM32 17h1v1h-1zM4 18h1v1h-1zM5 18h1v1h-1zM6 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM14 18h1v1h-1zM15 18h1v1h-1zM17 18h1v1h-1zM22 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM28 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM32 18h1v1h-1zM4 19h1v1h-1zM5 19h1v1h-1zM6 19h1v1h-1zM7 19h1v1h-1zM8 19h1v1h-1zM11 19h1v1h-1zM13 19h1v1h-1zM15 19h1v1h-1zM18 19h1v1h-1zM19 19h1v1h-1zM20 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM24 19h1v1h-1zM27 19h1v1h-1zM31 19h1v1h-1zM9 20h1v1h-1zM10 20h1v1h-1zM13 20h1v1h-1zM14 20h1v1h-1zM16 20h1v1h-1zM18 20h1v1h-1zM22 20h1v1h-1zM23 20h1v1h-1zM24 20h1v1h-1zM25 20h1v1h-1zM27 20h1v1h-1zM28 20h1v1h-1zM29 20h1v1h-1zM31 20h1v1h-1zM7 21h1v1h-1zM9 21h1v1h-1zM12 21h1v1h-1zM13 21h1v1h-1zM18 21h1v1h-1zM19 21h1v1h-1zM24 21h1v1h-1zM27 21h1v1h-1zM29 21h1v1h-1zM30 21h1v1h-1zM31 21h1v1h-1zM4 22h1v1h-1zM6 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM14 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM24 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM30 22h1v1h-1zM7 23h1v1h-1zM13 23h1v1h-1zM14 23h1v1h-1zM15 23h1v1h-1zM17 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM21 23h1v1h-1zM22 23h1v1h-1zM24 23h1v1h-1zM25 23h1v1h-1zM26 23h1v1h-1zM27 23h1v1h-1zM30 23h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM8 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM17 24h1v1h-1zM18 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM24 24h1v1h-1zM25 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM28 24h1v1h-1zM29 24h1v1h-1zM30 24h1v1h-1zM12 25h1v1h-1zM14 25h1v1h-1zM20 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM24 25h1v1h-1zM28 25h1v1h-1zM29 25h1v1h-1zM30 25h1v1h-1zM31 25h1v1h-1zM32 25h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM18 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM29 26h1v1h-1zM31 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM13 27h1v1h-1zM15 27h1v1h-1zM16 27h1v1h-1zM17 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM20 27h1v1h-1zM24 27h1v1h-1zM28 27h1v1h-1zM29 27h1v1h-1zM4 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM21 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM30 28h1v1h-1zM4 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM15 29h1v1h-1zM17 29h1v1h-1zM19 29h1v1h-1zM20 29h1v1h-1zM21 29h1v1h-1zM22 29h1v1h-1zM24 29h1v1h-1zM25 29h1v1h-1zM27 29h1v1h-1zM28 29h1v1h-1zM29 29h1v1h-1zM32 29h1v1h-1zM4 30h1v1h-1zM6 30h1v1h-1zM7 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM12 30h1v1h-1zM16 30h1v1h-1zM18 30h1v1h-1zM21 30h1v1h-1zM22 30h1v1h-1zM24 30h1v1h-1zM27 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM16 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM20 31h1v1h-1zM22 31h1v1h-1zM24 31h1v1h-1zM26 31h1v1h-1zM27 31h1v1h-1zM29 31h1v1h-1zM31 31h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM9 32h1v1h-1zM10 32h1v1h-1zM12 32h1v1h-1zM13 32h1v1h-1zM15 32h1v1h-1zM22 32h1v1h-1zM23 32h1v1h-1zM24 32h1v1h-1zM26 32h1v1h-1zM27 32h1v1h-1zM29 32h1v1h-1zM31 32h1v1h-1z\" fill=\"#000\"/></svg>", "https://yoga.meditation-kr.workers.dev": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 37 37\" shape-rendering=\"crispEdges\" role=\"img\"><rect width=\"37\" height=\"37\" fill=\"#fff\"/><path d=\"M4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM14 4h1v1h-1zM16 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM24 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM29 4h1v1h-1zM30 4h1v1h-1zM31 4h1v1h-1zM32 4h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM14 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM21 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM19 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM23 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM29 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM16 7h1v1h-1zM17 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM21 7h1v1h-1zM22 7h1v1h-1zM23 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM30 7h1v1h-1zM32 7h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM13 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM21 8h1v1h-1zM22 8h1v1h-1zM23 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM16 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM19 9h1v1h-1zM24 9h1v1h-1zM26 9h1v1h-1zM32 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM31 10h1v1h-1zM32 10h1v1h-1zM13 11h1v1h-1zM14 11h1v1h-1zM15 11h1v1h-1zM20 11h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM15 12h1v1h-1zM21 12h1v1h-1zM23 12h1v1h-1zM25 12h1v1h-1zM27 12h1v1h-1zM29 12h1v1h-1zM31 12h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM14 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM21 13h1v1h-1zM22 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM25 13h1v1h-1zM26 13h1v1h-1zM28 13h1v1h-1zM32 13h1v1h-1zM5 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM14 14h1v1h-1zM17 14h1v1h-1zM18 14h1v1h-1zM19 14h1v1h-1zM20 14h1v1h-1zM21 14h1v1h-1zM22 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM4 15h1v1h-1zM6 15h1v1h-1zM9 15h1v1h-1zM16 15h1v1h-1zM17 15h1v1h-1zM24 15h1v1h-1zM25 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM31 15h1v1h-1zM7 16h1v1h-1zM9 16h1v1h-1zM10 16h1v1h-1zM11 16h1v1h-1zM12 16h1v1h-1zM13 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM18 16h1v1h-1zM19 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM24 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM5 17h1v1h-1zM8 17h1v1h-1zM9 17h1v1h-1zM11 17h1v1h-1zM13 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM27 17h1v1h-1zM28 17h1v1h-1zM32 17h1v1h-1zM7 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM12 18h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM19 18h1v1h-1zM21 18h1v1h-1zM22 18h1v1h-1zM24 18h1v1h-1zM26 18h1v1h-1zM27 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM4 19h1v1h-1zM5 19h1v1h-1zM6 19h1v1h-1zM7 19h1v1h-1zM11 19h1v1h-1zM14 19h1v1h-1zM15 19h1v1h-1zM18 19h1v1h-1zM22 19h1v1h-1zM27 19h1v1h-1zM28 19h1v1h-1zM31 19h1v1h-1zM5 20h1v1h-1zM7 20h1v1h-1zM8 20h1v1h-1zM9 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM13 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM19 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM22 20h1v1h-1zM29 20h1v1h-1zM30 20h1v1h-1zM4 21h1v1h-1zM5 21h1v1h-1zM11 21h1v1h-1zM13 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM18 21h1v1h-1zM20 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM28 21h1v1h-1zM30 21h1v1h-1zM32 21h1v1h-1zM4 22h1v1h-1zM6 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM14 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM21 22h1v1h-1zM27 22h1v1h-1zM30 22h1v1h-1zM4 23h1v1h-1zM6 23h1v1h-1zM7 23h1v1h-1zM8 23h1v1h-1zM9 23h1v1h-1zM13 23h1v1h-1zM16 23h1v1h-1zM17 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM22 23h1v1h-1zM24 23h1v1h-1zM27 23h1v1h-1zM31 23h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM8 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM16 24h1v1h-1zM18 24h1v1h-1zM19 24h1v1h-1zM21 24h1v1h-1zM24 24h1v1h-1zM25 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM28 24h1v1h-1zM30 24h1v1h-1zM31 24h1v1h-1zM32 24h1v1h-1zM12 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM20 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM28 25h1v1h-1zM29 25h1v1h-1zM30 25h1v1h-1zM31 25h1v1h-1zM32 25h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM12 26h1v1h-1zM14 26h1v1h-1zM15 26h1v1h-1zM16 26h1v1h-1zM19 26h1v1h-1zM20 26h1v1h-1zM21 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM29 26h1v1h-1zM30 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM15 27h1v1h-1zM18 27h1v1h-1zM23 27h1v1h-1zM24 27h1v1h-1zM28 27h1v1h-1zM31 27h1v1h-1zM32 27h1v1h-1zM4 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM21 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM30 28h1v1h-1zM4 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM16 29h1v1h-1zM17 29h1v1h-1zM18 29h1v1h-1zM20 29h1v1h-1zM21 29h1v1h-1zM22 29h1v1h-1zM23 29h1v1h-1zM29 29h1v1h-1zM30 29h1v1h-1zM31 29h1v1h-1zM32 29h1v1h-1zM4 30h1v1h-1zM6 30h1v1h-1zM7 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM12 30h1v1h-1zM13 30h1v1h-1zM14 30h1v1h-1zM17 30h1v1h-1zM18 30h1v1h-1zM19 30h1v1h-1zM21 30h1v1h-1zM24 30h1v1h-1zM25 30h1v1h-1zM26 30h1v1h-1zM27 30h1v1h-1zM28 30h1v1h-1zM29 30h1v1h-1zM30 30h1v1h-1zM31 30h1v1h-1zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM16 31h1v1h-1zM17 31h1v1h-1zM24 31h1v1h-1zM27 31h1v1h-1zM28 31h1v1h-1zM29 31h1v1h-1zM31 31h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM9 32h1v1h-1zM10 32h1v1h-1zM12 32h1v1h-1zM13 32h1v1h-1zM14 32h1v1h-1zM16 32h1v1h-1zM18 32h1v1h-1zM19 32h1v1h-1zM20 32h1v1h-1zM21 32h1v1h-1zM23 32h1v1h-1zM25 32h1v1h-1zM29 32h1v1h-1zM30 32h1v1h-1z\" fill=\"#000\"/></svg>", "https://saebyeok-church.pages.dev/": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 37 37\" shape-rendering=\"crispEdges\" role=\"img\"><rect width=\"37\" height=\"37\" fill=\"#fff\"/><path d=\"M4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM13 4h1v1h-1zM16 4h1v1h-1zM17 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM29 4h1v1h-1zM30 4h1v1h-1zM31 4h1v1h-1zM32 4h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM15 5h1v1h-1zM16 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM21 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM16 6h1v1h-1zM17 6h1v1h-1zM20 6h1v1h-1zM21 6h1v1h-1zM22 6h1v1h-1zM23 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM29 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM17 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM23 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM30 7h1v1h-1zM32 7h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM17 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM21 8h1v1h-1zM22 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM21 9h1v1h-1zM22 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM26 9h1v1h-1zM32 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM31 10h1v1h-1zM32 10h1v1h-1zM12 11h1v1h-1zM13 11h1v1h-1zM16 11h1v1h-1zM18 11h1v1h-1zM21 11h1v1h-1zM23 11h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM7 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM14 12h1v1h-1zM19 12h1v1h-1zM20 12h1v1h-1zM24 12h1v1h-1zM26 12h1v1h-1zM27 12h1v1h-1zM28 12h1v1h-1zM30 12h1v1h-1zM31 12h1v1h-1zM7 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM14 13h1v1h-1zM15 13h1v1h-1zM18 13h1v1h-1zM19 13h1v1h-1zM21 13h1v1h-1zM22 13h1v1h-1zM24 13h1v1h-1zM26 13h1v1h-1zM29 13h1v1h-1zM32 13h1v1h-1zM4 14h1v1h-1zM5 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM20 14h1v1h-1zM22 14h1v1h-1zM23 14h1v1h-1zM26 14h1v1h-1zM29 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM6 15h1v1h-1zM8 15h1v1h-1zM11 15h1v1h-1zM18 15h1v1h-1zM20 15h1v1h-1zM23 15h1v1h-1zM30 15h1v1h-1zM31 15h1v1h-1zM4 16h1v1h-1zM7 16h1v1h-1zM9 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM16 16h1v1h-1zM19 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM25 16h1v1h-1zM26 16h1v1h-1zM29 16h1v1h-1zM31 16h1v1h-1zM32 16h1v1h-1zM4 17h1v1h-1zM6 17h1v1h-1zM11 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM20 17h1v1h-1zM21 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM5 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM16 18h1v1h-1zM20 18h1v1h-1zM21 18h1v1h-1zM22 18h1v1h-1zM25 18h1v1h-1zM26 18h1v1h-1zM28 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM32 18h1v1h-1zM4 19h1v1h-1zM5 19h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM12 19h1v1h-1zM16 19h1v1h-1zM17 19h1v1h-1zM18 19h1v1h-1zM20 19h1v1h-1zM21 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM29 19h1v1h-1zM31 19h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM7 20h1v1h-1zM8 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM13 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM24 20h1v1h-1zM25 20h1v1h-1zM31 20h1v1h-1zM6 21h1v1h-1zM7 21h1v1h-1zM9 21h1v1h-1zM20 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM29 21h1v1h-1zM32 21h1v1h-1zM4 22h1v1h-1zM6 22h1v1h-1zM10 22h1v1h-1zM12 22h1v1h-1zM17 22h1v1h-1zM21 22h1v1h-1zM25 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM31 22h1v1h-1zM32 22h1v1h-1zM7 23h1v1h-1zM12 23h1v1h-1zM14 23h1v1h-1zM15 23h1v1h-1zM17 23h1v1h-1zM19 23h1v1h-1zM21 23h1v1h-1zM22 23h1v1h-1zM23 23h1v1h-1zM27 23h1v1h-1zM31 23h1v1h-1zM32 23h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM8 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM18 24h1v1h-1zM20 24h1v1h-1zM24 24h1v1h-1zM25 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM28 24h1v1h-1zM30 24h1v1h-1zM12 25h1v1h-1zM13 25h1v1h-1zM15 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM20 25h1v1h-1zM21 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM28 25h1v1h-1zM30 25h1v1h-1zM31 25h1v1h-1zM32 25h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM12 26h1v1h-1zM15 26h1v1h-1zM16 26h1v1h-1zM17 26h1v1h-1zM18 26h1v1h-1zM24 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM31 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM16 27h1v1h-1zM17 27h1v1h-1zM19 27h1v1h-1zM20 27h1v1h-1zM22 27h1v1h-1zM24 27h1v1h-1zM28 27h1v1h-1zM29 27h1v1h-1zM30 27h1v1h-1zM31 27h1v1h-1zM32 27h1v1h-1zM4 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM14 28h1v1h-1zM15 28h1v1h-1zM18 28h1v1h-1zM20 28h1v1h-1zM21 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM32 28h1v1h-1zM4 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM15 29h1v1h-1zM17 29h1v1h-1zM18 29h1v1h-1zM21 29h1v1h-1zM22 29h1v1h-1zM23 29h1v1h-1zM26 29h1v1h-1zM27 29h1v1h-1zM28 29h1v1h-1zM29 29h1v1h-1zM30 29h1v1h-1zM31 29h1v1h-1zM4 30h1v1h-1zM6 30h1v1h-1zM7 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM14 30h1v1h-1zM15 30h1v1h-1zM17 30h1v1h-1zM18 30h1v1h-1zM20 30h1v1h-1zM22 30h1v1h-1zM23 30h1v1h-1zM24 30h1v1h-1zM28 30h1v1h-1zM29 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM13 31h1v1h-1zM15 31h1v1h-1zM20 31h1v1h-1zM21 31h1v1h-1zM22 31h1v1h-1zM23 31h1v1h-1zM24 31h1v1h-1zM25 31h1v1h-1zM26 31h1v1h-1zM28 31h1v1h-1zM31 31h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM9 32h1v1h-1zM10 32h1v1h-1zM12 32h1v1h-1zM14 32h1v1h-1zM16 32h1v1h-1zM17 32h1v1h-1zM19 32h1v1h-1zM21 32h1v1h-1zM22 32h1v1h-1zM23 32h1v1h-1zM24 32h1v1h-1zM25 32h1v1h-1zM26 32h1v1h-1zM28 32h1v1h-1zM31 32h1v1h-1z\" fill=\"#000\"/></svg>", "https://saunagoyo.com/": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 33 33\" shape-rendering=\"crispEdges\" role=\"img\"><rect width=\"33\" height=\"33\" fill=\"#fff\"/><path d=\"M4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM13 4h1v1h-1zM14 4h1v1h-1zM15 4h1v1h-1zM18 4h1v1h-1zM20 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM24 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM16 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM20 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM25 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM25 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM25 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM17 9h1v1h-1zM20 9h1v1h-1zM22 9h1v1h-1zM28 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM25 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM13 11h1v1h-1zM16 11h1v1h-1zM18 11h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM13 12h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM17 12h1v1h-1zM18 12h1v1h-1zM20 12h1v1h-1zM24 12h1v1h-1zM25 12h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM11 13h1v1h-1zM12 13h1v1h-1zM14 13h1v1h-1zM17 13h1v1h-1zM18 13h1v1h-1zM19 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM25 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM4 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM9 14h1v1h-1zM10 14h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM18 14h1v1h-1zM19 14h1v1h-1zM20 14h1v1h-1zM22 14h1v1h-1zM23 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM4 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM12 15h1v1h-1zM14 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM19 15h1v1h-1zM20 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM25 15h1v1h-1zM28 15h1v1h-1zM6 16h1v1h-1zM10 16h1v1h-1zM13 16h1v1h-1zM14 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM4 17h1v1h-1zM5 17h1v1h-1zM8 17h1v1h-1zM9 17h1v1h-1zM13 17h1v1h-1zM14 17h1v1h-1zM16 17h1v1h-1zM17 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM21 17h1v1h-1zM23 17h1v1h-1zM27 17h1v1h-1zM4 18h1v1h-1zM6 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM12 18h1v1h-1zM14 18h1v1h-1zM18 18h1v1h-1zM19 18h1v1h-1zM20 18h1v1h-1zM21 18h1v1h-1zM22 18h1v1h-1zM23 18h1v1h-1zM24 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM28 18h1v1h-1zM4 19h1v1h-1zM6 19h1v1h-1zM7 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM14 19h1v1h-1zM16 19h1v1h-1zM19 19h1v1h-1zM21 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM25 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM6 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM13 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM19 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM22 20h1v1h-1zM23 20h1v1h-1zM24 20h1v1h-1zM26 20h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM17 21h1v1h-1zM20 21h1v1h-1zM24 21h1v1h-1zM4 22h1v1h-1zM5 22h1v1h-1zM6 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM9 22h1v1h-1zM10 22h1v1h-1zM12 22h1v1h-1zM14 22h1v1h-1zM16 22h1v1h-1zM20 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM28 22h1v1h-1zM4 23h1v1h-1zM10 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM14 23h1v1h-1zM15 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM24 23h1v1h-1zM4 24h1v1h-1zM6 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM10 24h1v1h-1zM13 24h1v1h-1zM15 24h1v1h-1zM19 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM23 24h1v1h-1zM24 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM28 24h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM7 25h1v1h-1zM8 25h1v1h-1zM10 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM19 25h1v1h-1zM20 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM27 25h1v1h-1zM28 25h1v1h-1zM4 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM14 26h1v1h-1zM17 26h1v1h-1zM18 26h1v1h-1zM19 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM12 27h1v1h-1zM16 27h1v1h-1zM17 27h1v1h-1zM20 27h1v1h-1zM21 27h1v1h-1zM23 27h1v1h-1zM24 27h1v1h-1zM28 27h1v1h-1zM4 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM9 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM16 28h1v1h-1zM17 28h1v1h-1zM20 28h1v1h-1zM21 28h1v1h-1zM25 28h1v1h-1zM28 28h1v1h-1z\" fill=\"#000\"/></svg>", "https://inpeace.eric-6a5.workers.dev": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 37 37\" shape-rendering=\"crispEdges\" role=\"img\"><rect width=\"37\" height=\"37\" fill=\"#fff\"/><path d=\"M4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM14 4h1v1h-1zM16 4h1v1h-1zM17 4h1v1h-1zM19 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM24 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM29 4h1v1h-1zM30 4h1v1h-1zM31 4h1v1h-1zM32 4h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM14 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM22 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM16 6h1v1h-1zM17 6h1v1h-1zM20 6h1v1h-1zM23 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM29 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM16 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM20 7h1v1h-1zM21 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM30 7h1v1h-1zM32 7h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM13 8h1v1h-1zM20 8h1v1h-1zM23 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM16 9h1v1h-1zM19 9h1v1h-1zM20 9h1v1h-1zM24 9h1v1h-1zM26 9h1v1h-1zM32 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM31 10h1v1h-1zM32 10h1v1h-1zM13 11h1v1h-1zM14 11h1v1h-1zM15 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM20 11h1v1h-1zM24 11h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM15 12h1v1h-1zM19 12h1v1h-1zM21 12h1v1h-1zM22 12h1v1h-1zM23 12h1v1h-1zM25 12h1v1h-1zM27 12h1v1h-1zM29 12h1v1h-1zM31 12h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM14 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM18 13h1v1h-1zM20 13h1v1h-1zM21 13h1v1h-1zM22 13h1v1h-1zM23 13h1v1h-1zM25 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM28 13h1v1h-1zM32 13h1v1h-1zM4 14h1v1h-1zM9 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM17 14h1v1h-1zM18 14h1v1h-1zM19 14h1v1h-1zM21 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM4 15h1v1h-1zM5 15h1v1h-1zM16 15h1v1h-1zM17 15h1v1h-1zM19 15h1v1h-1zM20 15h1v1h-1zM22 15h1v1h-1zM23 15h1v1h-1zM27 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM31 15h1v1h-1zM4 16h1v1h-1zM8 16h1v1h-1zM10 16h1v1h-1zM11 16h1v1h-1zM12 16h1v1h-1zM13 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM18 16h1v1h-1zM19 16h1v1h-1zM21 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM4 17h1v1h-1zM8 17h1v1h-1zM11 17h1v1h-1zM12 17h1v1h-1zM13 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM27 17h1v1h-1zM28 17h1v1h-1zM32 17h1v1h-1zM4 18h1v1h-1zM5 18h1v1h-1zM6 18h1v1h-1zM8 18h1v1h-1zM9 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM19 18h1v1h-1zM21 18h1v1h-1zM24 18h1v1h-1zM25 18h1v1h-1zM28 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM4 19h1v1h-1zM5 19h1v1h-1zM8 19h1v1h-1zM9 19h1v1h-1zM15 19h1v1h-1zM18 19h1v1h-1zM20 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM31 19h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM6 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM15 20h1v1h-1zM21 20h1v1h-1zM23 20h1v1h-1zM27 20h1v1h-1zM29 20h1v1h-1zM30 20h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM7 21h1v1h-1zM9 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM18 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM28 21h1v1h-1zM30 21h1v1h-1zM32 21h1v1h-1zM4 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM9 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM13 22h1v1h-1zM17 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM21 22h1v1h-1zM30 22h1v1h-1zM4 23h1v1h-1zM6 23h1v1h-1zM16 23h1v1h-1zM17 23h1v1h-1zM23 23h1v1h-1zM27 23h1v1h-1zM31 23h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM8 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM16 24h1v1h-1zM18 24h1v1h-1zM19 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM24 24h1v1h-1zM25 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM28 24h1v1h-1zM30 24h1v1h-1zM31 24h1v1h-1zM32 24h1v1h-1zM12 25h1v1h-1zM14 25h1v1h-1zM20 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM28 25h1v1h-1zM29 25h1v1h-1zM30 25h1v1h-1zM31 25h1v1h-1zM32 25h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM12 26h1v1h-1zM14 26h1v1h-1zM15 26h1v1h-1zM16 26h1v1h-1zM19 26h1v1h-1zM21 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM29 26h1v1h-1zM30 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM18 27h1v1h-1zM22 27h1v1h-1zM23 27h1v1h-1zM24 27h1v1h-1zM28 27h1v1h-1zM31 27h1v1h-1zM4 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM21 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM30 28h1v1h-1zM4 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM16 29h1v1h-1zM17 29h1v1h-1zM18 29h1v1h-1zM20 29h1v1h-1zM21 29h1v1h-1zM22 29h1v1h-1zM23 29h1v1h-1zM25 29h1v1h-1zM29 29h1v1h-1zM30 29h1v1h-1zM31 29h1v1h-1zM32 29h1v1h-1zM4 30h1v1h-1zM6 30h1v1h-1zM7 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM12 30h1v1h-1zM13 30h1v1h-1zM14 30h1v1h-1zM17 30h1v1h-1zM18 30h1v1h-1zM19 30h1v1h-1zM20 30h1v1h-1zM21 30h1v1h-1zM22 30h1v1h-1zM23 30h1v1h-1zM25 30h1v1h-1zM26 30h1v1h-1zM27 30h1v1h-1zM28 30h1v1h-1zM29 30h1v1h-1zM30 30h1v1h-1zM31 30h1v1h-1zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM13 31h1v1h-1zM16 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM20 31h1v1h-1zM24 31h1v1h-1zM26 31h1v1h-1zM27 31h1v1h-1zM28 31h1v1h-1zM29 31h1v1h-1zM31 31h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM9 32h1v1h-1zM10 32h1v1h-1zM12 32h1v1h-1zM13 32h1v1h-1zM16 32h1v1h-1zM18 32h1v1h-1zM19 32h1v1h-1zM21 32h1v1h-1zM23 32h1v1h-1zM25 32h1v1h-1zM26 32h1v1h-1zM30 32h1v1h-1z\" fill=\"#000\"/></svg>", "https://swimpick.co.kr/mulmeong": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 33 33\" shape-rendering=\"crispEdges\" role=\"img\"><rect width=\"33\" height=\"33\" fill=\"#fff\"/><path d=\"M4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM17 4h1v1h-1zM18 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM24 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM13 5h1v1h-1zM14 5h1v1h-1zM18 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM17 6h1v1h-1zM18 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM25 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM16 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM25 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM13 8h1v1h-1zM17 8h1v1h-1zM18 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM25 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM22 9h1v1h-1zM28 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM25 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM12 11h1v1h-1zM14 11h1v1h-1zM17 11h1v1h-1zM19 11h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM10 12h1v1h-1zM13 12h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM20 12h1v1h-1zM22 12h1v1h-1zM28 12h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM15 13h1v1h-1zM17 13h1v1h-1zM18 13h1v1h-1zM19 13h1v1h-1zM21 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM25 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM5 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM10 14h1v1h-1zM11 14h1v1h-1zM14 14h1v1h-1zM15 14h1v1h-1zM17 14h1v1h-1zM19 14h1v1h-1zM20 14h1v1h-1zM22 14h1v1h-1zM23 14h1v1h-1zM25 14h1v1h-1zM28 14h1v1h-1zM4 15h1v1h-1zM6 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM13 15h1v1h-1zM14 15h1v1h-1zM15 15h1v1h-1zM19 15h1v1h-1zM20 15h1v1h-1zM25 15h1v1h-1zM26 15h1v1h-1zM27 15h1v1h-1zM28 15h1v1h-1zM5 16h1v1h-1zM8 16h1v1h-1zM9 16h1v1h-1zM10 16h1v1h-1zM11 16h1v1h-1zM13 16h1v1h-1zM16 16h1v1h-1zM19 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM4 17h1v1h-1zM5 17h1v1h-1zM6 17h1v1h-1zM7 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM18 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM24 17h1v1h-1zM27 17h1v1h-1zM4 18h1v1h-1zM5 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM13 18h1v1h-1zM16 18h1v1h-1zM19 18h1v1h-1zM24 18h1v1h-1zM25 18h1v1h-1zM26 18h1v1h-1zM27 18h1v1h-1zM28 18h1v1h-1zM4 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM14 19h1v1h-1zM20 19h1v1h-1zM21 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM25 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM10 20h1v1h-1zM13 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM22 20h1v1h-1zM23 20h1v1h-1zM24 20h1v1h-1zM26 20h1v1h-1zM27 20h1v1h-1zM12 21h1v1h-1zM13 21h1v1h-1zM18 21h1v1h-1zM20 21h1v1h-1zM24 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM4 22h1v1h-1zM5 22h1v1h-1zM6 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM9 22h1v1h-1zM10 22h1v1h-1zM14 22h1v1h-1zM15 22h1v1h-1zM18 22h1v1h-1zM20 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM28 22h1v1h-1zM4 23h1v1h-1zM10 23h1v1h-1zM14 23h1v1h-1zM17 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM24 23h1v1h-1zM27 23h1v1h-1zM4 24h1v1h-1zM6 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM10 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM19 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM23 24h1v1h-1zM24 24h1v1h-1zM27 24h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM7 25h1v1h-1zM8 25h1v1h-1zM10 25h1v1h-1zM12 25h1v1h-1zM14 25h1v1h-1zM15 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM20 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM27 25h1v1h-1zM28 25h1v1h-1zM4 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM19 26h1v1h-1zM21 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM27 26h1v1h-1zM28 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM12 27h1v1h-1zM13 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM23 27h1v1h-1zM24 27h1v1h-1zM26 27h1v1h-1zM27 27h1v1h-1zM28 27h1v1h-1zM4 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM9 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM14 28h1v1h-1zM16 28h1v1h-1zM20 28h1v1h-1zM22 28h1v1h-1zM25 28h1v1h-1zM28 28h1v1h-1z\" fill=\"#000\"/></svg>"};
+SITES.forEach(function(s,i){
+  var el=document.getElementById('qr'+i);
+  if(QRS[s.u]){el.innerHTML=QRS[s.u]}else{el.textContent='QR'}
+});
+
+var cur=0,N=pages.length;
+var elLbl=document.getElementById('lbl'),elBar=document.getElementById('pbar'),bPrev=document.getElementById('bPrev'),bNext=document.getElementById('bNext');
+function go(i,quiet){
+  i=Math.max(0,Math.min(N-1,i));cur=i;
+  track.style.transform='translateX(-'+(i*100)+'%)';
+  var els=track.children;
+  for(var k=0;k<els.length;k++){
+    if(k===i){els[k].removeAttribute('inert');els[k].removeAttribute('aria-hidden');els[k].scrollTop=0}
+    else{els[k].setAttribute('inert','');els[k].setAttribute('aria-hidden','true')}
+  }
+  app.setAttribute('data-part',pages[i].part);
+  elLbl.textContent=pages[i].title+'  ·  '+(i+1)+' / '+N;
+  elBar.style.width=((i+1)/N*100)+'%';
+  bPrev.disabled=(i===0);bNext.disabled=(i===N-1);
+}
+function goId(id){if(id in idx)go(idx[id])}
+bPrev.onclick=function(){go(cur-1)};
+bNext.onclick=function(){go(cur+1)};
+document.getElementById('bHome').onclick=function(){go(0)};
+document.getElementById('bToc').onclick=function(){go(1)};
+document.addEventListener('click',function(e){
+  var t=e.target.closest&&e.target.closest('[data-go]');
+  if(t){e.preventDefault();goId(t.getAttribute('data-go'))}
+});
+document.addEventListener('keydown',function(e){
+  if(e.altKey||e.ctrlKey||e.metaKey)return;
+  if(e.key==='ArrowRight'){go(cur+1)}
+  else if(e.key==='ArrowLeft'){go(cur-1)}
+  else if(e.key==='Home'){go(0)}
+  else if(e.key==='End'){go(N-1)}
+});
+var sx=0,sy=0,st=0;
+var vp=document.getElementById('vp');
+vp.addEventListener('touchstart',function(e){var t=e.changedTouches[0];sx=t.clientX;sy=t.clientY;st=Date.now()},{passive:true});
+vp.addEventListener('touchend',function(e){
+  var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.6&&Date.now()-st<800){go(dx<0?cur+1:cur-1)}
+},{passive:true});
+go(0);
+</script>
